@@ -25,11 +25,12 @@ export const saveToSheets = async (state: AppState) => {
 
   try {
     // Envia os dados divididos para as 3 abas
+    // Usamos text/plain para evitar preflight CORS, o GAS lê o body normalmente
     await fetch(API_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify({
         action: 'syncAll',
@@ -84,6 +85,9 @@ export const clearAllData = async () => {
       await fetch(API_URL, {
         method: 'POST',
         mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({ action: 'reset' })
       });
     } catch (e) {
