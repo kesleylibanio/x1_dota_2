@@ -13,6 +13,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToRegister, players }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [password, setPassword] = useState('');
   const [dotaId, setDotaId] = useState('');
+  const [playerPassword, setPlayerPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleAdminLogin = (e: React.FormEvent) => {
@@ -26,12 +27,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToRegister, players }) => {
 
   const handlePlayerLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Normalize both values to strings for comparison
-    const player = players.find(p => String(p.dota_id || '') === String(dotaId || ''));
+    // Normalize both values to strings for comparison and check password
+    const player = players.find(p => 
+      String(p.dota_id || '') === String(dotaId || '') && 
+      p.password === playerPassword
+    );
+    
     if (player) {
       onLogin('player', String(player.dota_id));
     } else {
-      setError('ID de Jogador não encontrado no recrutamento.');
+      setError('ID de Jogador ou Senha incorretos.');
     }
   };
 
@@ -91,6 +96,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToRegister, players }) => {
                   onChange={e => setDotaId(e.target.value)}
                   className="w-full bg-black border border-zinc-800 p-4 rounded-xl outline-none focus:border-red-600 transition text-white"
                   placeholder="Seu ID do Dota..."
+                />
+             </div>
+             <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Senha de Acesso</label>
+                <input 
+                  type="password"
+                  value={playerPassword}
+                  onChange={e => setPlayerPassword(e.target.value)}
+                  className="w-full bg-black border border-zinc-800 p-4 rounded-xl outline-none focus:border-red-600 transition text-white"
+                  placeholder="••••••••"
                 />
              </div>
              <button className="w-full bg-red-600 py-4 rounded-xl font-black uppercase tracking-widest hover:brightness-110 transition shadow-lg shadow-red-900/20">

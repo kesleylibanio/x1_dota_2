@@ -45,7 +45,7 @@ const App: React.FC = () => {
     setView('login');
   };
 
-  const registerPlayer = async (newPlayer: { nick: string; dota_id: string; mmr: number; medalha: Medal }): Promise<void> => {
+  const registerPlayer = async (newPlayer: { nick: string; dota_id: string; mmr: number; medalha: Medal; password?: string }): Promise<void> => {
     const exists = state.players.some(p => String(p.dota_id || '') === String(newPlayer.dota_id || ''));
     if (exists) {
       throw new Error("Já existe um jogador cadastrado com esse ID.");

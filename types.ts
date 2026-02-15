@@ -9,6 +9,7 @@ export interface Player {
   player_id: string;
   nick: string;
   dota_id: string;
+  password?: string;
   mmr: number;
   medalha: Medal;
   registration_date: string;

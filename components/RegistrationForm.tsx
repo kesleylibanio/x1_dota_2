@@ -4,7 +4,7 @@ import { Medal, Player } from '../types';
 import { MEDALS } from '../constants';
 
 interface RegistrationFormProps {
-  onRegister: (data: { nick: string; dota_id: string; mmr: number; medalha: Medal }) => Promise<void>;
+  onRegister: (data: { nick: string; dota_id: string; mmr: number; medalha: Medal; password?: string }) => Promise<void>;
   existingPlayers: Player[];
 }
 
@@ -12,6 +12,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
   const [formData, setFormData] = useState({
     nick: '',
     dota_id: '',
+    password: '',
     mmr: '',
     medalha: 'Arauto' as Medal
   });
@@ -24,8 +25,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
     setError(null);
     setSuccess(false);
 
-    if (!formData.nick.trim() || !formData.dota_id.trim() || !formData.mmr.trim()) {
-      setError("Todos os campos são obrigatórios.");
+    if (!formData.nick.trim() || !formData.dota_id.trim() || !formData.mmr.trim() || !formData.password.trim()) {
+      setError("Todos os campos, incluindo a senha, são obrigatórios.");
       return;
     }
 
@@ -48,11 +49,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
       await onRegister({
         nick: formData.nick.trim(),
         dota_id: formData.dota_id.trim(),
+        password: formData.password.trim(),
         mmr: mmrValue,
         medalha: formData.medalha
       });
       
-      setFormData({ nick: '', dota_id: '', mmr: '', medalha: 'Arauto' });
+      setFormData({ nick: '', dota_id: '', password: '', mmr: '', medalha: 'Arauto' });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err: any) {
@@ -93,16 +95,29 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
             placeholder="Ex: Arteezy"
           />
         </div>
-        <div>
-          <label className="block text-xs font-bold text-gray-400 uppercase mb-1">ID do Dota (Único)</label>
-          <input 
-            type="text" 
-            value={formData.dota_id}
-            onChange={e => setFormData({...formData, dota_id: e.target.value})}
-            disabled={loading}
-            className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
-            placeholder="12345678"
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">ID do Dota (Único)</label>
+            <input 
+              type="text" 
+              value={formData.dota_id}
+              onChange={e => setFormData({...formData, dota_id: e.target.value})}
+              disabled={loading}
+              className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
+              placeholder="12345678"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Senha de Acesso</label>
+            <input 
+              type="password" 
+              value={formData.password}
+              onChange={e => setFormData({...formData, password: e.target.value})}
+              disabled={loading}
+              className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
+              placeholder="••••••••"
+            />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
