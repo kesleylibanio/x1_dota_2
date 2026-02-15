@@ -1,4 +1,3 @@
-
 import { Medal } from './types';
 
 export const MEDALS: Medal[] = [
@@ -10,7 +9,7 @@ export const MEDALS: Medal[] = [
  * Senha do Supervisor obtida do ambiente. 
  * Em produção, process.env.ADMIN_PASSWORD deve estar configurada.
  */
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'dota123';
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'augustomeachou';
 
 export const THEME = {
   primary: 'rgb(220, 38, 38)', // Vermelho-600
