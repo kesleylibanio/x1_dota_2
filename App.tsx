@@ -24,7 +24,11 @@ const App: React.FC = () => {
   useEffect(() => {
     const init = async () => {
       const data = await loadFromSheets();
-      setState(data);
+      // Força o reset do usuário logado ao abrir o app para evitar login automático
+      setState({
+        ...data,
+        currentUser: { role: null }
+      });
       setIsLoading(false);
     };
     init();
