@@ -3,9 +3,9 @@ import { INITIAL_STORAGE_KEY } from '../constants';
 import { AppState } from '../types';
 
 /**
- * URL de implantação do Google Apps Script.
+ * URL de implantação do Google Apps Script obtida de variáveis de ambiente.
  */
-const API_URL = 'https://script.google.com/macros/s/AKfycbzthnTJDg_7YQ7ezuS6OgQdPdZcNXjHxxJq7zAcpYWUSHlNiirWaCWVaUPiYxsWZBY/exec';
+const API_URL = process.env.SHEETS_API_URL || '';
 
 const initialState: AppState = {
   players: [],
@@ -15,7 +15,7 @@ const initialState: AppState = {
   tournamentStarted: false
 };
 
-const isUrlConfigured = () => API_URL && !API_URL.includes('SUA_URL_AQUI');
+const isUrlConfigured = () => API_URL && API_URL.trim() !== '';
 
 export const saveToSheets = async (state: AppState) => {
   // Persistência local imediata

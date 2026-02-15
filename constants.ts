@@ -6,7 +6,11 @@ export const MEDALS: Medal[] = [
   'Lenda', 'Ancestral', 'Divino', 'Imortal'
 ];
 
-export const ADMIN_PASSWORD = 'dota123'; // Senha fixa conforme solicitado
+/**
+ * Senha do Supervisor obtida do ambiente. 
+ * Em produção, process.env.ADMIN_PASSWORD deve estar configurada.
+ */
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'dota123';
 
 export const THEME = {
   primary: 'rgb(220, 38, 38)', // Vermelho-600
