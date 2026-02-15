@@ -41,10 +41,10 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToRegister, players }) => {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
         
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-red-600 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-red-600/30">
-            <i className="fa-solid fa-gamepad text-3xl text-white"></i>
+          <div className="w-24 h-24 bg-black border-2 border-red-600 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-red-600/30 overflow-hidden">
+            <img src="https://i.ibb.co/hR5kdLZ9/7533b0b7-dfb0-4823-939b-1ea0209f05e5.png" alt="Corvus Logo" className="w-full h-full object-cover" />
           </div>
-          <h2 className="text-3xl font-black fiery-text uppercase tracking-tighter">Portal de Acesso</h2>
+          <h2 className="text-3xl font-black fiery-text uppercase tracking-tighter">Área de Login</h2>
           <p className="text-gray-500 text-sm mt-2 font-bold uppercase tracking-widest">Escolha sua identidade</p>
         </div>
 

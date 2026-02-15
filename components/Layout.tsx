@@ -45,9 +45,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentUser, onLogout }) => {
       {/* Navigation */}
       <nav className="relative z-10 bg-black/80 border-b border-red-900/50 backdrop-blur-md sticky top-0">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <i className="fa-solid fa-fire-flame-curved text-red-600 text-2xl animate-pulse"></i>
-            <h1 className="text-xl font-bold tracking-tighter fiery-text">DOTA 2 X1 PRO</h1>
+          <div className="flex items-center gap-3">
+            <img src="https://i.ibb.co/hR5kdLZ9/7533b0b7-dfb0-4823-939b-1ea0209f05e5.png" alt="Corvus Logo" className="h-10 w-10 object-contain" />
+            <h1 className="text-xl font-bold tracking-tighter fiery-text uppercase">Liga Corvus - Torneio X1</h1>
           </div>
           
           <div className="flex items-center gap-4">
@@ -74,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentUser, onLogout }) => {
       </main>
 
       <footer className="relative z-10 p-6 text-center text-slate-600 text-xs border-t border-slate-900">
-        &copy; {new Date().getFullYear()} Dota 2 X1 Pro Management • Inspired by The International
+        &copy; {new Date().getFullYear()} Liga Corvus - Torneio X1 Management • Inspired by The International
       </footer>
     </div>
   );
