@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dota 2 X1 Tournament Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes drift {
+      from { transform: translateY(0px) translateX(0px); opacity: 0; }
+      to { transform: translateY(-1000px) translateX(100px); opacity: 0.5; }
+    }
+    .ember {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,100,0,1) 0%, rgba(255,0,0,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(2px);
+    }
+    body {
+      background-color: #050505;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .fiery-glow {
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+    }
+    .fiery-text {
+      background: linear-gradient(to bottom, #f87171, #dc2626, #991b1b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
