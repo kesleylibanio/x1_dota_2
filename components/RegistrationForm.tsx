@@ -20,23 +20,72 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  // Lógica para calcular a medalha baseada no MMR
+  const calculateMedal = (mmrValue: number): Medal => {
+    if (mmrValue > 5740) return 'Imortal';
+    if (mmrValue >= 5001) return 'Divino';
+    if (mmrValue >= 3901) return 'Ancestral';
+    if (mmrValue >= 3301) return 'Lenda';
+    if (mmrValue >= 2441) return 'Arconte';
+    if (mmrValue >= 1601) return 'Cruzado';
+    if (mmrValue >= 771) return 'Guardião';
+    return 'Arauto';
+  };
+
+  const handleMMRChange = (val: string) => {
+    // Remove letras e limita a 5 dígitos
+    let cleanVal = val.replace(/\D/g, '').slice(0, 5);
+    let mmrNum = parseInt(cleanVal) || 0;
+    
+    // Limite estrito de 12.000 MMR
+    if (mmrNum > 12000) {
+      mmrNum = 12000;
+      cleanVal = "12000";
+    }
+
+    const autoMedal = calculateMedal(mmrNum);
+    
+    setFormData({
+      ...formData,
+      mmr: cleanVal,
+      medalha: autoMedal
+    });
+  };
+
+  const handleDotaIdChange = (val: string) => {
+    // Remove letras e limita a 20 caracteres
+    const cleanVal = val.replace(/\D/g, '').slice(0, 20);
+    setFormData({ ...formData, dota_id: cleanVal });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
 
     if (!formData.nick.trim() || !formData.dota_id.trim() || !formData.mmr.trim() || !formData.password.trim()) {
-      setError("Todos os campos, incluindo a senha, são obrigatórios.");
+      setError("Todos os campos são obrigatórios.");
+      return;
+    }
+
+    // Validação de força da senha
+    const password = formData.password;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[^A-Za-z0-9]/.test(password);
+
+    if (!hasUpper || !hasLower || !hasNumber || !hasSymbol) {
+      setError("A senha deve ter no mínimo: 1 letra maiúscula, 1 minúscula, 1 número e 1 ícone/símbolo.");
       return;
     }
 
     const mmrValue = parseInt(formData.mmr);
-    if (isNaN(mmrValue) || mmrValue < 0) {
-      setError("MMR deve ser um número inteiro positivo.");
+    if (isNaN(mmrValue) || mmrValue < 0 || mmrValue > 12000) {
+      setError("MMR deve ser um número válido entre 0 e 12000.");
       return;
     }
 
-    // Convert dota_id to string defensively as Google Sheets might return it as a number
     const idExists = existingPlayers.some(p => String(p.dota_id || '').trim() === formData.dota_id.trim());
     if (idExists) {
       setError("Já existe um jogador cadastrado com esse ID.");
@@ -85,10 +134,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Nick no Dota</label>
+          <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Nick no Dota (Máx 30)</label>
           <input 
             type="text" 
             value={formData.nick}
+            maxLength={30}
             onChange={e => setFormData({...formData, nick: e.target.value})}
             disabled={loading}
             className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
@@ -97,14 +147,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">ID do Dota (Único)</label>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">ID do Dota (Máx 20)</label>
             <input 
               type="text" 
               value={formData.dota_id}
-              onChange={e => setFormData({...formData, dota_id: e.target.value})}
+              onChange={e => handleDotaIdChange(e.target.value)}
               disabled={loading}
               className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
-              placeholder="12345678"
+              placeholder="Apenas números"
             />
           </div>
           <div>
@@ -115,29 +165,28 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister, existin
               onChange={e => setFormData({...formData, password: e.target.value})}
               disabled={loading}
               className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
-              placeholder="••••••••"
+              placeholder="Ex: P@ssw0rd1"
             />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">MMR (Inteiro)</label>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">MMR (Máx 12.000)</label>
             <input 
-              type="number" 
+              type="text" 
               value={formData.mmr}
-              onChange={e => setFormData({...formData, mmr: e.target.value})}
+              onChange={e => handleMMRChange(e.target.value)}
               disabled={loading}
               className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
-              placeholder="3500"
+              placeholder="Máx: 12000"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Medalha</label>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Medalha (Automática)</label>
             <select 
               value={formData.medalha}
-              onChange={e => setFormData({...formData, medalha: e.target.value as Medal})}
-              disabled={loading}
-              className="w-full bg-black border border-zinc-800 p-3 rounded text-white focus:border-red-500 transition outline-none disabled:opacity-50"
+              disabled={true}
+              className="w-full bg-black border border-zinc-800 p-3 rounded text-gray-400 cursor-not-allowed outline-none appearance-none"
             >
               {MEDALS.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
