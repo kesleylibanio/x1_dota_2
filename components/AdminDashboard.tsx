@@ -133,28 +133,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <table className="w-full text-left text-sm">
             <thead className="bg-black text-gray-400 uppercase text-[10px] font-bold">
               <tr>
+                <th className="p-4 text-center">Remover</th>
                 <th className="p-4">Nick</th>
                 <th className="p-4">ID do Dota</th>
                 <th className="p-4">MMR</th>
                 <th className="p-4">Grupo</th>
                 <th className="p-4">Status</th>
-                <th className="p-4 text-center">Remover</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800">
               {state.players.map(p => (
                 <tr key={p.player_id} className="hover:bg-zinc-800/30">
-                  <td className="p-4 font-bold">{p.nick}</td>
-                  <td className="p-4 text-gray-500">{p.dota_id}</td>
-                  <td className="p-4 text-orange-500 font-mono">{p.mmr}</td>
-                  <td className="p-4">{p.grupo || '-'}</td>
-                  <td className="p-4">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold ${
-                      p.status === 'active' ? 'bg-green-900 text-green-400' : 'bg-zinc-800 text-gray-400'
-                    }`}>
-                      {p.status === 'active' ? 'Ativo' : 'Reserva'}
-                    </span>
-                  </td>
                   <td className="p-4 text-center">
                     <button 
                       onClick={() => {
@@ -167,6 +156,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     >
                       <i className="fa-solid fa-trash-can text-xs"></i>
                     </button>
+                  </td>
+                  <td className="p-4 font-bold">{p.nick}</td>
+                  <td className="p-4 text-gray-500">{p.dota_id}</td>
+                  <td className="p-4 text-orange-500 font-mono">{p.mmr}</td>
+                  <td className="p-4">{p.grupo || '-'}</td>
+                  <td className="p-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold ${
+                      p.status === 'active' ? 'bg-green-900 text-green-400' : 'bg-zinc-800 text-gray-400'
+                    }`}>
+                      {p.status === 'active' ? 'Ativo' : 'Reserva'}
+                    </span>
                   </td>
                 </tr>
               ))}
