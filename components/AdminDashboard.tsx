@@ -138,7 +138,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <th className="p-4">MMR</th>
                 <th className="p-4">Grupo</th>
                 <th className="p-4">Status</th>
-                <th className="p-4">Ações</th>
+                <th className="p-4 text-center">Remover</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800">
@@ -155,16 +155,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       {p.status === 'active' ? 'Ativo' : 'Reserva'}
                     </span>
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 text-center">
                     <button 
-                      onClick={() => onDeletePlayer(p.player_id)}
-                      className="text-red-500 hover:text-red-400"
+                      onClick={() => {
+                        if(confirm(`Deseja realmente remover o jogador ${p.nick}?`)) {
+                          onDeletePlayer(p.player_id);
+                        }
+                      }}
+                      className="w-8 h-8 rounded-full bg-red-900/20 text-red-500 hover:bg-red-600 hover:text-white transition flex items-center justify-center mx-auto"
+                      title="Remover Jogador"
                     >
-                      <i className="fa-solid fa-trash"></i>
+                      <i className="fa-solid fa-trash-can text-xs"></i>
                     </button>
                   </td>
                 </tr>
               ))}
+              {state.players.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="p-12 text-center text-gray-500 italic">Nenhum jogador recrutado até o momento.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
